@@ -1,30 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Old+Standard+TT&display=swap" rel="stylesheet" />
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Failure as Rebirth</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Old+Standard+TT&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div id="container">
-    <img id="glass" src="glass.png" alt="Intact Glass" />
-    <h1 id="prompt">try to ruin it!</h1>
+
+    <!-- 메인 인터랙션 영역 -->
+    <div id="main-container">
+      <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔" />
+      <h1 id="main-text">try to ruin it!</h1>
+      <button id="connect-microbit">마이크로비트 연결</button>
+    </div>
 
     <div id="display-area"></div>
 
+    <!-- 최종 결과 영역, 기본은 숨김 -->
     <div id="final-message" style="display:none;">
       <h2>You nailed it!</h2>
       <div id="collected"></div>
-    </div> <!-- final-message 닫기 -->
+    </div>
 
-  </div> <!-- container 닫기 -->
+  </div>
 
-  <!-- 소리 시각화 바 UI 추가 -->
-  <canvas id="sound-visual" width="300" height="50" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); background:#111;"></canvas>
+  <!-- 소리 시각화 캔버스 -->
+  <canvas id="sound-visual" width="300" height="50" 
+          style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); background:#111;">
+  </canvas>
 
   <script src="script.js"></script>
 </body>
