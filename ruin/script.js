@@ -45,7 +45,7 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 50 && !finished) {
+      if (max - min > 30 && !finished) {  // 기존 50 → 30으로 감도 높임
         handleSignal();
       }
       requestAnimationFrame(checkSound);
@@ -83,7 +83,7 @@ async function listenForLoudSound() {
       ctx.fillRect(0, 0, rms * 15, canvas.height);
 
       // 소리 인식 후 앱 리셋
-      if (rms > 8 && !listening) {
+      if (rms > 15 && !listening) {  // 기존 8 → 15로 감도 낮춤 (더 큰 소리만 반응)
         console.log('🔊 Loud sound detected – resetting app');
         resetApp();
       }
@@ -142,7 +142,7 @@ function showTemp(html) {
   main.innerHTML = html;
   setTimeout(() => {
     main.innerHTML = `
-      <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
+      <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
       <h1 id="main-text">try to ruin it!</h1>
     `;
   }, 800);
@@ -167,7 +167,7 @@ function resetApp() {
   document.getElementById('main-container').style.display = 'block';
   document.getElementById('result-container').style.display = 'none';
   document.getElementById('main-container').innerHTML = `
-    <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
+    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
     <h1 id="main-text">try to ruin it!</h1>
   `;
 }
