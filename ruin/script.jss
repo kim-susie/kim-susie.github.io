@@ -55,6 +55,27 @@ setupSoundDetection();
   }, {passive: false});
 });
 
+analyser.fftSize = 512;
+const dataArray = new Uint8Array(analyser.fftSize);
+
+function checkVolume() {
+  analyser.getByteTimeDomainData(dataArray);
+  let total = 0;
+  for (let i = 0; i < dataArray.length; i++) {
+    let deviation = dataArray[i] - 128;
+    total += deviation * deviation;
+  }
+  let rms = Math.sqrt(total / dataArray.length);
+
+  if (rms > 8 && !listening) {
+    console.log('🔊 Loud sound detected – resetting app');
+    resetApp();
+  }
+
+  requestAnimationFrame(checkVolume);
+}
+
+
 // 소리 감지 함수
 function setupSoundDetection() {
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
