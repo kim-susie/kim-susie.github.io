@@ -28,11 +28,12 @@ body {
 
 /* 이미지 스타일 */
 #glass-image {
-  max-width: 250px;
-  max-height: 250px;
+  max-width: 180px;
+  max-height: 180px;
   object-fit: contain;
   user-select: none;
 }
+
 
 /* 제목 텍스트 */
 #main-text {
