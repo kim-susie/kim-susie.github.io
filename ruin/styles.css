@@ -1,0 +1,91 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding-top: 180px;
+  padding-bottom: 10px;  /* 아래쪽 여백도 필요하다면 추가 */
+  gap: 30px;             /* 요소 간 간격 */
+  box-sizing: border-box;
+  font-family: "Coral Pixels", serif;
+}
+
+
+body {
+.coral-pixels-regular {
+  font-family: "Coral Pixels", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.old-standard-tt-regular {
+  font-family: "Old Standard TT", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+}
+
+
+
+#glass {
+  max-width: 300px;
+  margin-bottom: 20px;
+}
+
+#prompt {
+  font-size: 2rem;
+  margin-bottom: 30px;
+}
+
+#display-area {
+  min-height: 300px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#display-area img {
+  max-width: 300px;
+  margin: 5px;
+}
+
+#display-area span {
+  font-size: 2.5rem;
+  margin: 5px 10px;
+  display: inline-block;
+  font-weight: bold;
+}
+
+#final-message {
+  margin-top: 30px;
+}
+
+#collected {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#collected img {
+  max-width: 80px;
+  margin: 3px;
+}
+
+#collected span {
+  margin: 0 5px;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
