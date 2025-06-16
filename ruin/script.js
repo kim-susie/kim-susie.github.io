@@ -159,16 +159,21 @@ function finishGame() {
 
 // ▶ 앱 초기화
 
+
+
 function resetApp() {
   finished = false;
   listening = true;
   signalCount = 0;
   collected = [];
 
-  document.getElementById('main-container').style.display = 'flex'; // flex로 변경
-  document.getElementById('result-container').style.display = 'none';
-  document.getElementById('main-container').innerHTML = `
-    <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
+  const main = document.getElementById('main-container');
+  const result = document.getElementById('result-container');
+
+  main.style.display = 'flex';   // 중요! flex 유지
+  result.style.display = 'none';
+  main.innerHTML = `
+    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔">
     <h1 id="main-text">try to ruin it!</h1>
   `;
 }
