@@ -4,37 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Failure as Rebirth</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Old+Standard+TT&display=swap" rel="stylesheet" />
-
+  <link
+    href="https://fonts.googleapis.com/css2?family=Coral+Pixels&family=Old+Standard+TT&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div id="container">
-
-    <!-- 메인 UI (초기 상태) -->
-    <div id="main-container">
-      <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔" />
-      <h1 id="main-text">try to ruin it!</h1>
-      <button id="connect-microbit">마이크로비트 연결</button>
-    </div>
-
-    <!-- 결과 보여줄 영역 (초기엔 숨김) -->
-    <div id="result-container" style="display:none;">
-      <h2>You nailed it!</h2>
-      <div id="collected"></div>
-    </div>
+  <div id="main-container">
+    <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔" />
+    <h1 id="main-text">try to ruin it!</h1>
+    <button id="connect-microbit">마이크로비트 연결</button>
 
     <div id="display-area"></div>
-
   </div>
 
-  <!-- 소리 시각화 바 -->
-  <canvas id="sound-visual" width="300" height="50" style="position:fixed; bottom:10px; left:50%; transform:translateX(-50%); background:#111;"></canvas>
+  <div id="result-container" style="display:none;">
+    <h2>You nailed it!</h2>
+    <div id="collected"></div>
+  </div>
+
+  <canvas
+    id="sound-visual"
+    width="300"
+    height="50"
+    style="
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #111;
+      border-radius: 5px;
+    "
+  ></canvas>
 
   <script src="script.js"></script>
 </body>
-
 </html>
