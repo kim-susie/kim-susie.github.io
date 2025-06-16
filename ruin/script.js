@@ -158,16 +158,18 @@ function finishGame() {
 }
 
 // ▶ 앱 초기화
+
 function resetApp() {
   finished = false;
   listening = true;
   signalCount = 0;
   collected = [];
 
-  document.getElementById('main-container').style.display = 'block';
+  document.getElementById('main-container').style.display = 'flex'; // flex로 변경
   document.getElementById('result-container').style.display = 'none';
   document.getElementById('main-container').innerHTML = `
-    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
+    <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
     <h1 id="main-text">try to ruin it!</h1>
   `;
 }
+
