@@ -1,7 +1,7 @@
 const groupAImages = [
-  'images/A/1.png', 'images/A/2.png', 'images/A/3.png', 'images/A/4.png',
-  'images/A/5.png', 'images/A/6.png', 'images/A/7.png', 'images/A/8.png',
-  'images/A/9.png', 'images/A/10.png', 'images/A/11.png', 'images/A/12.png',
+  'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
+  'assets/A/5.png', 'assets/A/6.png', 'assets/A/7.png', 'assets/A/8.png',
+  'assets/A/9.png', 'assets/A/10.png', 'assets/A/11.png', 'assets/A/12.png',
 ];
 
 const groupBTexts = [
