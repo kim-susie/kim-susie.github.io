@@ -178,3 +178,4 @@ function resetApp() {
   `;
   document.getElementById('connect-microbit').addEventListener('click', connectMicrobit);
 }
+
