@@ -65,13 +65,12 @@ body, html {
 }
 
 /* 사운드 시각화 캔버스 */
+
 #sound-visual {
-  position: fixed;
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #111;
+  width: 100px;      /* 원하는 너비로 조절 */
+  height: 10px;      /* 사운드바 높이 작게 */
+  background-color: #ddd;
   border-radius: 5px;
-  width: 300px;
-  height: 50px;
+  margin: 10px auto;
+  display: block;
 }
