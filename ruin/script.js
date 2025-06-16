@@ -16,8 +16,6 @@ let collected = [];
 let finished = false;
 let listening = true;
 
-
-
 // 소리 감지 및 시각화 설정
 setupSoundDetection();
 listenForLoudSound();
@@ -146,9 +144,7 @@ function showTemp(html) {
     main.innerHTML = `
       <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
       <h1 id="main-text">try to ruin it!</h1>
-      <button id="connect-microbit">마이크로비트 연결</button>
     `;
-    document.getElementById('connect-microbit').addEventListener('click', connectMicrobit);
   }, 800);
 }
 
@@ -173,7 +169,5 @@ function resetApp() {
   document.getElementById('main-container').innerHTML = `
     <img id="glass-image" src="assets/glass.png" alt="깨지지 않은 유리잔">
     <h1 id="main-text">try to ruin it!</h1>
-    <button id="connect-microbit">마이크로비트 연결</button>
   `;
-  document.getElementById('connect-microbit').addEventListener('click', connectMicrobit);
 }
