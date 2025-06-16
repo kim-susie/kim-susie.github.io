@@ -1,91 +1,120 @@
-body, html {
-  height: 100%;
+/* Reset 기본 스타일 */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+html,
+body {
+  height: 100%;
+  font-family: "Coral Pixels", serif;
+  background-color: #fafafa;
+  overflow: hidden; /* 스크롤 제거 */
+}
 
-#main-container {
+/* 메인 컨테이너: 화면 전체, 중앙 정렬 */
+#main-container,
+#result-container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding-top: 180px;
-  padding-bottom: 10px;  /* 아래쪽 여백도 필요하다면 추가 */
-  gap: 30px;             /* 요소 간 간격 */
-  box-sizing: border-box;
-  font-family: "Coral Pixels", serif;
+  justify-content: center; /* 수직 중앙 */
+  align-items: center;     /* 수평 중앙 */
+  gap: 20px;
+  padding: 20px;
+  text-align: center;
 }
 
-
-body {
-.coral-pixels-regular {
-  font-family: "Coral Pixels", serif;
-  font-weight: 400;
-  font-style: normal;
+/* 이미지 스타일 */
+#glass-image {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: contain;
+  user-select: none;
 }
 
-.old-standard-tt-regular {
-  font-family: "Old Standard TT", serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-
-}
-
-
-
-#glass {
-  max-width: 300px;
-  margin-bottom: 20px;
-}
-
-#prompt {
-  font-size: 2rem;
-  margin-bottom: 30px;
-}
-
-#display-area {
-  min-height: 300px;
-  margin-bottom: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-#display-area img {
-  max-width: 300px;
-  margin: 5px;
-}
-
-#display-area span {
+/* 제목 텍스트 */
+#main-text {
   font-size: 2.5rem;
-  margin: 5px 10px;
-  display: inline-block;
   font-weight: bold;
+  color: #333;
 }
 
-#final-message {
-  margin-top: 30px;
+/* 버튼 */
+#connect-microbit {
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #4caf50;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+#connect-microbit:hover {
+  background-color: #388e3c;
 }
 
-#collected {
-  margin-top: 15px;
+/* display-area: 이미지와 텍스트 모음, 가로 스크롤 없이 한 화면에 꽉 차도록 flex */
+#display-area {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 10px;
+  max-width: 100vw;
+  max-height: 40vh;
+  overflow: hidden; /* 스크롤 없애기 */
+  align-items: center;
 }
 
+/* display-area 내 이미지 */
+#display-area img {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+  user-select: none;
+}
+
+/* display-area 내 텍스트 */
+#display-area span {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #222;
+  user-select: none;
+}
+
+/* 결과 화면 내 수집 아이템 */
+#collected {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 100vw;
+  max-height: 40vh;
+  overflow: auto; /* 결과가 많을 때 스크롤 허용 */
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+/* 결과 화면 수집 이미지 */
 #collected img {
   max-width: 80px;
-  margin: 3px;
+  max-height: 80px;
+  object-fit: contain;
+  user-select: none;
 }
 
+/* 결과 화면 수집 텍스트 */
 #collected span {
-  margin: 0 5px;
   font-weight: bold;
   font-size: 1.2rem;
+  color: #333;
+  user-select: none;
+}
+
+/* 사운드 시각화 바 캔버스 (추가 스타일) */
+#sound-visual {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
