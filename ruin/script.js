@@ -1,4 +1,5 @@
 let collectedAll = [];  // 누적 결과 저장용
+let isDetecting = false;  // 소리 감지 중복 방지
 
 const groupAImages = [
   'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
@@ -18,11 +19,11 @@ let collected = [];
 let finished = false;
 let listening = true;
 
-// 소리 감지 및 시각화 설정
+// ▶ 소리 감지 시작
 setupSoundDetection();
 listenForLoudSound();
 
-// 사용자 인터랙션 방지
+// ▶ 사용자 인터랙션 방지
 ['click','mousedown','mouseup','keydown','keyup','scroll','touchstart','touchend'].forEach(ev => {
   window.addEventListener(ev, e => {
     e.preventDefault();
@@ -30,11 +31,14 @@ listenForLoudSound();
   }, {passive: false});
 });
 
-// 자동 마이크로비트 연결 시도
+// ▶ 마이크로비트 연결
 window.addEventListener('load', connectMicrobit);
 
-// ▶ 소리로 신호 입력 감지
+// ▶ 소리로 신호 감지
 function setupSoundDetection() {
+  if (isDetecting) return; // 중복 방지
+  isDetecting = true;
+
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const analyser = audioCtx.createAnalyser();
@@ -47,7 +51,7 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 30 && !finished) {  // 기존 50 → 30으로 감도 높임
+      if (max - min > 30 && !finished) {
         handleSignal();
       }
       requestAnimationFrame(checkSound);
@@ -57,7 +61,7 @@ function setupSoundDetection() {
   });
 }
 
-// ▶ 큰 소리로 앱 리셋 (UI 시각화 포함)
+// ▶ 큰 소리로 앱 리셋 + 시각화
 async function listenForLoudSound() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -84,8 +88,7 @@ async function listenForLoudSound() {
       ctx.fillStyle = '#4caf50';
       ctx.fillRect(0, 0, rms * 15, canvas.height);
 
-      // 소리 인식 후 앱 리셋
-      if (rms > 15 && !listening) {  // 기존 8 → 15로 감도 낮춤 (더 큰 소리만 반응)
+      if (rms > 15 && !listening) {
         console.log('🔊 Loud sound detected – resetting app');
         resetApp();
       }
@@ -124,12 +127,10 @@ function handleSignal() {
   if (signalCount > totalSignals) return;
 
   if (signalCount % 2 === 1) {
-    // A 이미지
     let idx = Math.floor(Math.random() * groupAImages.length);
     collected.push(`<img src="${groupAImages[idx]}" width="80">`);
     showTemp(`<img src="${groupAImages[idx]}" width="120">`);
   } else {
-    // B 텍스트
     let idx = Math.floor(Math.random() * groupBTexts.length);
     collected.push(`<span>${groupBTexts[idx]}</span>`);
     showTemp(`<span style="font-size:2em">${groupBTexts[idx]}</span>`);
@@ -138,7 +139,7 @@ function handleSignal() {
   if (signalCount === totalSignals) finishGame();
 }
 
-// ▶ 이미지/글자 잠깐 보여주기
+// ▶ 이미지/텍스트 잠깐 보여주기
 function showTemp(html) {
   const main = document.getElementById('main-container');
   main.innerHTML = html;
@@ -146,7 +147,7 @@ function showTemp(html) {
     main.innerHTML = `
       <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
       <h1 id="main-text">try to ruin it!</h1>
-    `;https://github.com/kim-susie/kim-susie.github.io/blob/main/ruin/script.js
+    `;
   }, 2000);
 }
 
@@ -155,23 +156,15 @@ function finishGame() {
   finished = true;
   listening = false;
 
-  // 새로운 시도 결과를 하나의 HTML 문자열로 묶어서 저장
   const newResultHTML = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
-  collectedAll.push(newResultHTML);  // 문자열로 저장
+  collectedAll.push(newResultHTML);
 
-  // 화면 전환
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
-
-  // 누적된 모든 결과 HTML을 출력
   document.getElementById('collected').innerHTML = collectedAll.join('');
 }
 
-
-// ▶ 앱 초기화
-
-
-
+// ▶ 앱 리셋
 function resetApp() {
   finished = false;
   listening = true;
@@ -181,10 +174,14 @@ function resetApp() {
   const main = document.getElementById('main-container');
   const result = document.getElementById('result-container');
 
-  main.style.display = 'flex';   // 중요! flex 유지
+  main.style.display = 'flex';
   result.style.display = 'none';
   main.innerHTML = `
     <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔">
     <h1 id="main-text">try to ruin it!</h1>
   `;
-}  
+
+  // 마이크 감지 재시작
+  isDetecting = false;     // 감지 루프 재시작 허용
+  setupSoundDetection();   // 소리 감지 다시 시작
+}
