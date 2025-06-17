@@ -114,8 +114,14 @@ async function listenForLoudSound() {
 
 // ▶ 신호 처리
 function handleSignal() {
+  if (!canDetectSignal) return;  // 0.5초 쉬는 중이면 무시
+
+  canDetectSignal = false;       // 신호 감지 잠시 중지
   signalCount++;
-  if (signalCount > totalSignals) return;
+  if (signalCount > totalSignals) {
+    canDetectSignal = true;      // 총 신호 초과 시 다시 열어두기
+    return;
+  }
 
   if (signalCount % 2 === 1) {
     let idx = Math.floor(Math.random() * groupAImages.length);
@@ -128,6 +134,10 @@ function handleSignal() {
   }
 
   if (signalCount === totalSignals) finishGame();
+
+  setTimeout(() => {
+    canDetectSignal = true;  // 0.5초 후 신호 감지 재개
+  }, 500);
 }
 
 // ▶ 이미지/텍스트 잠깐 보여주기
