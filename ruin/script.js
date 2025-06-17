@@ -146,7 +146,7 @@ function showTempAsync(html) {
         <h1 id="main-text">try to ruin it!</h1>
       `;
       resolve();
-    }, 2000);
+    }, 1500);
   });
 }
 
