@@ -1,3 +1,5 @@
+let collectedAll = [];  // 누적 결과 저장용
+
 const groupAImages = [
   'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
   'assets/A/5.png', 'assets/A/6.png', 'assets/A/7.png', 'assets/A/8.png',
@@ -152,10 +154,21 @@ function showTemp(html) {
 function finishGame() {
   finished = true;
   listening = false;
+
+  // 이번 시도 결과 저장
+  collectedAll.push([...collected]); // 배열 복사해서 저장
+
+  // 화면 전환
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
-  document.getElementById('collected').innerHTML = collected.join('');
+
+  // 모든 시도 결과 렌더링
+  const collectedDiv = document.getElementById('collected');
+  collectedDiv.innerHTML = collectedAll.map(group => 
+    `<div style="white-space: nowrap; margin-bottom: 10px;">${group.join('')}</div>`
+  ).join('');
 }
+
 
 // ▶ 앱 초기화
 
