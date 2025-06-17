@@ -159,14 +159,17 @@ function finishGame() {
   mainContainer.style.display = 'none';
   showResultContainer();
 
-  // 기존 결과 누적 + 이번 결과 추가
   let existing = localStorage.getItem('accumulatedResults') || '';
-  existing += collected.join('') + '<br><hr><br>';
+
+  // 한 줄씩 결과를 <div>로 묶어서 줄마다 쌓이게 처리
+  const newLine = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
+
+  existing += newLine;
+
   localStorage.setItem('accumulatedResults', existing);
 
   collectedDiv.innerHTML = existing;
 }
-
 function resetApp() {
   finished = false;
   listening = true;
