@@ -28,6 +28,7 @@ body, html {
   margin: 5px;
   font-size: 1.5em;
 }
+
 #result-container {
   display: none;
   flex-direction: column;
@@ -35,6 +36,28 @@ body, html {
   padding: 20px;
   overflow-y: auto;
   max-height: 80vh;
+  width: 90vw;
+  border: 2px solid #ccc;
+  background: #fafafa;
+  border-radius: 10px;
+}
+
+#collected {
+  width: 100%;
+  display: flex;
+  flex-direction: column;  /* 누적 결과 한 줄씩 세로 정렬 */
+  gap: 15px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+#collected div {
+  white-space: nowrap;      /* 한 줄 가로 스크롤 방지 */
+  overflow-x: auto;         /* 내용이 길면 가로 스크롤 가능 */
+  padding: 5px 10px;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+  border-radius: 5px;
 }
 
 
