@@ -138,28 +138,32 @@ function handleSignal() {
   if (signalCount === totalSignals) finishGame();
 }
 
-// ▶ 이미지/글자 잠깐 보여주기
 function showTemp(html) {
-  // 기존 glass 이미지와 텍스트 숨기기
+  // 기존 요소 숨기기
   const glassImage = document.getElementById('glass-image');
   const mainText = document.getElementById('main-text');
-  if (glassImage) glassImage.style.display = 'none';
-  if (mainText) mainText.style.display = 'none';
+  if (glassImage) glassImage.style.visibility = 'hidden';
+  if (mainText) mainText.style.visibility = 'hidden';
 
-  // 임시 결과 보여주기
-  const main = document.getElementById('main-container');
-  const tempDiv = document.createElement('div');
-  tempDiv.id = 'temp-content';
-  tempDiv.innerHTML = html;
-  main.appendChild(tempDiv);
+  // 임시 컨텐츠 생성
+  let temp = document.createElement('div');
+  temp.id = 'temp-display';
+  temp.innerHTML = html;
+  temp.style.position = 'absolute';
+  temp.style.top = '50%';
+  temp.style.left = '50%';
+  temp.style.transform = 'translate(-50%, -50%)';
+  temp.style.zIndex = '1000';
+  document.body.appendChild(temp); // main 대신 body에 추가 (canvas 영향 방지)
 
-  // 2초 후 원래 요소 다시 보여주기
   setTimeout(() => {
-    if (glassImage) glassImage.style.display = 'block';
-    if (mainText) mainText.style.display = 'block';
-    tempDiv.remove();
+    // 임시 컨텐츠 제거 및 원래 요소 복원
+    temp.remove();
+    if (glassImage) glassImage.style.visibility = 'visible';
+    if (mainText) mainText.style.visibility = 'visible';
   }, 2000);
 }
+
 
 
 // ▶ 결과 화면
