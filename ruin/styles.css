@@ -5,43 +5,30 @@
   box-sizing: border-box;
 }
 
-html, body {
+body, html {
   height: 100%;
-  width: 100%;
   font-family: 'Coral Pixels', serif;
   background: #fff;
   color: #222;
-  overflow: hidden;
-  position: relative;
 }
 
-/* 메인 및 결과 컨테이너 (중앙 고정 + 겹침) */
+/* 공통 컨테이너 스타일: 세로, 가로 중앙 정렬 */
 #main-container,
 #result-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  height: 100vh;              /* 화면 전체 높이 */
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
+  justify-content: center;    /* 세로 중앙 */
+  align-items: center;        /* 가로 중앙 */
+  gap: 20px;                  /* 요소 간 간격 */
   text-align: center;
   padding: 20px;
-  background-color: white;
-  transition: opacity 0.3s ease;
-}
-
-#result-container {
-  display: none; /* 처음엔 숨김 */
 }
 
 /* 글래스 이미지 */
 #glass-image {
   max-width: 280px;
-  width: 80vw;
+  width: 80vw;                /* 화면폭의 80%까지 커짐 방지 */
   height: auto;
 }
 
@@ -52,7 +39,7 @@ html, body {
 }
 
 /* 결과 메시지 */
-#result-container h2 {
+#final-message h2 {
   font-size: 2.5rem;
   font-weight: bold;
   margin-bottom: 15px;
@@ -63,28 +50,27 @@ html, body {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
   gap: 10px;
-  min-height: 200px;
-  max-width: 800px;
 }
 
 #collected img {
   max-width: 80px;
   height: auto;
-  margin: 5px;
 }
 
 #collected span {
   font-weight: bold;
-  font-size: 1.5rem;
-  margin: 5px;
+  font-size: 1.2rem;
+  margin: 0 5px;
 }
 
-/* 사운드 시각화 */
+/* 사운드 시각화 캔버스 */
+
 #sound-visual {
-  width: 50px;
-  height: 5px;
+  width: 50px;      /* 원하는 너비로 조절 */
+  height: 5px;      /* 사운드바 높이 작게 */
   background-color: #ddd;
   border-radius: 5px;
+  margin: 10px auto;
+  display: block;
 }
