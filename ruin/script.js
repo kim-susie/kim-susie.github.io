@@ -1,6 +1,6 @@
 let collectedAll = [];  // 누적 결과 저장용
 let isDetecting = false;  // 소리 감지 중복 방지
-let canDetectSignal = true;  // 소리 감지 타이밍 제어용 플래그
+let canDetectSignal = true;  // 신호 감지 잠시 중지 제어용 플래그
 
 const groupAImages = [
   'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
