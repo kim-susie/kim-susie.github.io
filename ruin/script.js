@@ -31,8 +31,7 @@ listenForLoudSound();
   }, {passive: false});
 });
 
-// ▶ 마이크로비트 연결
-window.addEventListener('load', connectMicrobit);
+
 
 // ▶ 소리로 신호 감지
 function setupSoundDetection() {
@@ -110,24 +109,6 @@ async function listenForLoudSound() {
   }
 }
 
-// ▶ 마이크로비트 연결
-async function connectMicrobit() {
-  try {
-    const device = await navigator.bluetooth.requestDevice({
-      filters: [{ namePrefix: 'micro:bit' }],
-      optionalServices: ['0000ffe0-0000-1000-8000-00805f9b34fb']
-    });
-    const server = await device.gatt.connect();
-    const service = await server.getPrimaryService('0000ffe0-0000-1000-8000-00805f9b34fb');
-    const characteristic = await service.getCharacteristic('0000ffe1-0000-1000-8000-00805f9b34fb');
-    characteristic.startNotifications();
-    characteristic.addEventListener('characteristicvaluechanged', () => {
-      if (!finished) handleSignal();
-    });
-  } catch (e) {
-    console.log('❌ 마이크로비트 자동 연결 실패:', e);
-  }
-}
 
 // ▶ 신호 처리
 function handleSignal() {
