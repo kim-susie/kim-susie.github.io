@@ -11,27 +11,31 @@ html, body {
   font-family: 'Coral Pixels', serif;
   background: #fff;
   color: #222;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  overflow: hidden;
+  position: relative;
 }
 
-/* 메인 및 결과 컨테이너 */
+/* 메인 및 결과 컨테이너 (중앙 고정 + 겹침) */
 #main-container,
 #result-container {
-  width: 100%;
-  max-width: 1000px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;    /* 세로 중앙 */
-  align-items: center;        /* 가로 중앙 */
+  justify-content: center;
+  align-items: center;
   gap: 20px;
   text-align: center;
   padding: 20px;
-  position: absolute;         /* 겹쳐지도록 설정 */
-  top: 0;
-  left: 0;
+  background-color: white;
+  transition: opacity 0.3s ease;
+}
+
+#result-container {
+  display: none; /* 처음엔 숨김 */
 }
 
 /* 글래스 이미지 */
@@ -82,3 +86,5 @@ html, body {
   width: 50px;
   height: 5px;
   background-color: #ddd;
+  border-radius: 5px;
+}
