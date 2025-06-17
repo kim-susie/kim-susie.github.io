@@ -69,7 +69,7 @@ function setupSoundDetection() {
     checkSound();
   }).catch(err => {
     console.error('Audio input error:', err);
-  });
+
 }
 
 // ▶ 큰 소리로 앱 리셋 + 시각화
