@@ -13,26 +13,21 @@ body, html {
 }
 
 /* 공통 컨테이너 스타일: 세로, 가로 중앙 정렬 */
-#main-container {
+#main-container,
+{
+  height: 100vh;              /* 화면 전체 높이 */
   display: flex;
   flex-direction: column;
-  justify-content: center;  /* 내부 내용 세로 중앙 */
-  align-items: center;      /* 내부 내용 가로 중앙 */
-  gap: 20px;
+  justify-content: center;    /* 세로 중앙 */
+  align-items: center;        /* 가로 중앙 */
+  gap: 20px;                  /* 요소 간 간격 */
+  text-align: center;
   padding: 20px;
-  width: 90vw;              /* 최대 너비 조절 가능 */
-  max-width: 400px;         /* 적당한 최대 너비 */
-  background: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
-
-
 #collected img, #collected span {
   margin: 5px;
   font-size: 1.5em;
 }
-
 #result-container {
   display: none;
   flex-direction: column;
@@ -40,28 +35,6 @@ body, html {
   padding: 20px;
   overflow-y: auto;
   max-height: 80vh;
-  width: 90vw;
-  border: 2px solid #ccc;
-  background: #fafafa;
-  border-radius: 10px;
-}
-
-#collected {
-  width: 100%;
-  display: flex;
-  flex-direction: column;  /* 누적 결과 한 줄씩 세로 정렬 */
-  gap: 15px;
-  font-size: 1.5em;
-  color: #333;
-}
-
-#collected div {
-  white-space: nowrap;      /* 한 줄 가로 스크롤 방지 */
-  overflow-x: auto;         /* 내용이 길면 가로 스크롤 가능 */
-  padding: 5px 10px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-  border-radius: 5px;
 }
 
 
