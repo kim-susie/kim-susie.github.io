@@ -21,6 +21,7 @@ let finished = false;
 let listening = true;
 
 // ▶ 소리 감지 시작
+
 setupSoundDetection();
 listenForLoudSound();
 
@@ -34,7 +35,7 @@ listenForLoudSound();
 
 // ▶ 소리로 신호 감지
 function setupSoundDetection() {
-  if (isDetecting) return; // 중복 방지
+  if (isDetecting) return;
   isDetecting = true;
 
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -49,18 +50,15 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
+      let diff = max - min;
 
-      if (max - min > 30 && !finished) {
-        handleSignal();
-      }
-
-      if (max - min > 50 && !finished && canDetectSignal) {
-        canDetectSignal = false;  // 신호 감지 잠시 중지
+      if (diff > 50 && !finished && canDetectSignal) {
+        canDetectSignal = false;
         handleSignal();
 
         setTimeout(() => {
-          canDetectSignal = true; // 0.5초 후 감지 재개
-        }, 500);
+          canDetectSignal = true;
+        }, 800);  // 재인식 간격을 0.8초로 늘림
       }
 
       requestAnimationFrame(checkSound);
@@ -69,8 +67,9 @@ function setupSoundDetection() {
     checkSound();
   }).catch(err => {
     console.error('Audio input error:', err);
-
+  });
 }
+
 
 // ▶ 큰 소리로 앱 리셋 + 시각화
 async function listenForLoudSound() {
