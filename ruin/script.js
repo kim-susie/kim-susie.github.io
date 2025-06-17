@@ -35,8 +35,6 @@ listenForLoudSound();
 window.addEventListener('load', connectMicrobit);
 
 // ▶ 소리로 신호 감지
-let canDetectSignal = true;  // 신호 감지 가능 플래그
-
 function setupSoundDetection() {
   if (isDetecting) return; // 중복 방지
   isDetecting = true;
@@ -53,21 +51,22 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-
-      if (max - min > 50 && !finished && canDetectSignal) {
+      if (max - min > 30 && !finished) {
+        handleSignal();
+      }
+      requestAnimationFrame(checkSound);
+       if (max - min > 50 && !finished && canDetectSignal) {
         canDetectSignal = false;  // 신호 감지 잠시 중지
         handleSignal();
 
         setTimeout(() => {
           canDetectSignal = true; // 1초 후 감지 재개
         }, 1000);
-      }
-
-      requestAnimationFrame(checkSound);
     }
 
     checkSound();
   });
+   
 }
 
 // ▶ 큰 소리로 앱 리셋 + 시각화
@@ -157,32 +156,22 @@ function showTemp(html) {
       <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
       <h1 id="main-text">try to ruin it!</h1>
     `;
-  }, 2000);
+  }, 2500);
 }
 
 // ▶ 결과 화면
-
 function finishGame() {
   finished = true;
-  listening = false;
+  listening = false;  // 큰 소리 감지 대기 상태 유지
 
-  // 새로운 시도 결과를 하나의 HTML 문자열로 묶어서 저장
   const newResultHTML = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
-  collectedAll.push(newResultHTML);  // 누적 저장
+  collectedAll.push(newResultHTML);
 
-  // 결과화면 전환
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
 
-  // 누적된 결과 표시
   document.getElementById('collected').innerHTML = collectedAll.join('');
-
-  // 🔁 일정 시간 후 다시 초기화
-  setTimeout(() => {
-    resetApp();  // 메인화면으로 돌아감
-  }, 3000);  // 3초 후 자동 리셋
 }
-
 
 // ▶ 앱 리셋
 function resetApp() {
@@ -201,7 +190,6 @@ function resetApp() {
     <h1 id="main-text">try to ruin it!</h1>
   `;
 
-  // 마이크 감지 재시작
-  isDetecting = false;     // 감지 루프 재시작 허용
-  setupSoundDetection();   // 소리 감지 다시 시작
+  isDetecting = false;   // 소리 감지 재시작 허용
+  setupSoundDetection(); // 다시 소리 감지 시작
 }
