@@ -1,5 +1,6 @@
-jlet collectedAll = [];  // 누적 결과 저장용
+let collectedAll = [];  // 누적 결과 저장용
 let isDetecting = false;  // 소리 감지 중복 방지
+let canDetectSignal = true;  // 소리 감지 타이밍 제어용 플래그
 
 const groupAImages = [
   'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
@@ -19,7 +20,6 @@ let collected = [];
 let finished = false;
 let listening = true;
 
-
 // ▶ 소리 감지 시작
 setupSoundDetection();
 listenForLoudSound();
@@ -31,8 +31,6 @@ listenForLoudSound();
     return false;
   }, {passive: false});
 });
-
-
 
 // ▶ 소리로 신호 감지
 function setupSoundDetection() {
@@ -51,22 +49,27 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
+
       if (max - min > 30 && !finished) {
         handleSignal();
       }
-      requestAnimationFrame(checkSound);
-       if (max - min > 50 && !finished && canDetectSignal) {
+
+      if (max - min > 50 && !finished && canDetectSignal) {
         canDetectSignal = false;  // 신호 감지 잠시 중지
         handleSignal();
 
         setTimeout(() => {
-          canDetectSignal = true; // 1초 후 감지 재개
+          canDetectSignal = true; // 0.5초 후 감지 재개
         }, 500);
+      }
+
+      requestAnimationFrame(checkSound);
     }
 
     checkSound();
+  }).catch(err => {
+    console.error('Audio input error:', err);
   });
-   
 }
 
 // ▶ 큰 소리로 앱 리셋 + 시각화
@@ -91,13 +94,13 @@ async function listenForLoudSound() {
       }
       let rms = Math.sqrt(total / dataArray.length);
 
-      // 🔊 사운드 시각화
+      // 사운드 시각화
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#4caf50';
       ctx.fillRect(0, 0, rms * 15, canvas.height);
 
       if (rms > 15 && !listening) {
-        console.log('🔊 Loud sound detected – resetting app');
+        console.log('Loud sound detected – resetting app');
         resetApp();
       }
 
@@ -109,7 +112,6 @@ async function listenForLoudSound() {
     console.error('Audio input error:', e);
   }
 }
-
 
 // ▶ 신호 처리
 function handleSignal() {
@@ -174,4 +176,4 @@ function resetApp() {
 
   isDetecting = false;   // 소리 감지 재시작 허용
   setupSoundDetection(); // 다시 소리 감지 시작
-}여기서 해당 시리얼넘버를 받을수있게하는 방법
+}
