@@ -21,7 +21,6 @@ let finished = false;
 let listening = true;
 
 // ▶ 소리 감지 시작
-
 setupSoundDetection();
 listenForLoudSound();
 
@@ -53,12 +52,7 @@ function setupSoundDetection() {
       let diff = max - min;
 
       if (diff > 50 && !finished && canDetectSignal) {
-        canDetectSignal = false;
         handleSignal();
-
-        setTimeout(() => {
-          canDetectSignal = true;
-        }, 1000);  // 재인식 간격을 0.8초로 늘림
       }
 
       requestAnimationFrame(checkSound);
@@ -69,7 +63,6 @@ function setupSoundDetection() {
     console.error('Audio input error:', err);
   });
 }
-
 
 // ▶ 큰 소리로 앱 리셋 + 시각화
 async function listenForLoudSound() {
@@ -113,43 +106,48 @@ async function listenForLoudSound() {
 }
 
 // ▶ 신호 처리
-function handleSignal() {
-  if (!canDetectSignal) return;  // 0.5초 쉬는 중이면 무시
+async function handleSignal() {
+  if (!canDetectSignal) return;
+  canDetectSignal = false;
 
-  canDetectSignal = false;       // 신호 감지 잠시 중지
   signalCount++;
   if (signalCount > totalSignals) {
-    canDetectSignal = true;      // 총 신호 초과 시 다시 열어두기
+    canDetectSignal = true;
     return;
   }
 
   if (signalCount % 2 === 1) {
     let idx = Math.floor(Math.random() * groupAImages.length);
     collected.push(`<img src="${groupAImages[idx]}" width="80">`);
-    showTemp(`<img src="${groupAImages[idx]}" width="120">`);
+    await showTempAsync(`<img src="${groupAImages[idx]}" width="120">`);
   } else {
     let idx = Math.floor(Math.random() * groupBTexts.length);
     collected.push(`<span>${groupBTexts[idx]}</span>`);
-    showTemp(`<span style="font-size:2em">${groupBTexts[idx]}</span>`);
+    await showTempAsync(`<span style="font-size:2em">${groupBTexts[idx]}</span>`);
   }
 
-  if (signalCount === totalSignals) finishGame();
+  if (signalCount === totalSignals) {
+    finishGame();
+  }
 
   setTimeout(() => {
-    canDetectSignal = true;  // 0.5초 후 신호 감지 재개
+    canDetectSignal = true;
   }, 500);
 }
 
-// ▶ 이미지/텍스트 잠깐 보여주기
-function showTemp(html) {
-  const main = document.getElementById('main-container');
-  main.innerHTML = html;
-  setTimeout(() => {
-    main.innerHTML = `
-      <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
-      <h1 id="main-text">try to ruin it!</h1>
-    `;
-  }, 2000);
+// Promise 기반 showTemp 함수 (2초 동안 대기)
+function showTempAsync(html) {
+  return new Promise(resolve => {
+    const main = document.getElementById('main-container');
+    main.innerHTML = html;
+    setTimeout(() => {
+      main.innerHTML = `
+        <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
+        <h1 id="main-text">try to ruin it!</h1>
+      `;
+      resolve();
+    }, 2000);
+  });
 }
 
 // ▶ 결과 화면
