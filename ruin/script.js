@@ -1,5 +1,6 @@
 let collectedAll = [];  // 누적 결과 저장용
 let isDetecting = false;  // 소리 감지 중복 방지
+let canDetectSignal = true;  // 소리 감지 타이밍 제어
 
 const groupAImages = [
   'assets/A/1.png', 'assets/A/2.png', 'assets/A/3.png', 'assets/A/4.png',
@@ -19,24 +20,28 @@ let collected = [];
 let finished = false;
 let listening = true;
 
+characteristic.addEventListener('characteristicvaluechanged', (event) => {
+  const value = new TextDecoder().decode(event.target.value);
+  if (value.trim() === "1") {
+    console.log("📶 micro:bit 블루투스 신호 감지!");
+    handleSignal();  // 소리 감지처럼 반응
+  }
+});
 
-// ▶ 소리 감지 시작
 setupSoundDetection();
 listenForLoudSound();
 
-// ▶ 사용자 인터랙션 방지
-['click','mousedown','mouseup','keydown','keyup','scroll','touchstart','touchend'].forEach(ev => {
+// 사용자 인터랙션 방지
+['click', 'mousedown', 'mouseup', 'keydown', 'keyup', 'scroll', 'touchstart', 'touchend'].forEach(ev => {
   window.addEventListener(ev, e => {
     e.preventDefault();
     return false;
-  }, {passive: false});
+  }, { passive: false });
 });
 
-
-
-// ▶ 소리로 신호 감지
+// 소리로 신호 감지
 function setupSoundDetection() {
-  if (isDetecting) return; // 중복 방지
+  if (isDetecting) return;
   isDetecting = true;
 
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
@@ -51,25 +56,28 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
+
       if (max - min > 30 && !finished) {
         handleSignal();
       }
-      requestAnimationFrame(checkSound);
-       if (max - min > 50 && !finished && canDetectSignal) {
-        canDetectSignal = false;  // 신호 감지 잠시 중지
+
+      if (max - min > 50 && !finished && canDetectSignal) {
+        canDetectSignal = false;
         handleSignal();
 
         setTimeout(() => {
-          canDetectSignal = true; // 1초 후 감지 재개
+          canDetectSignal = true;
         }, 500);
+      }
+
+      requestAnimationFrame(checkSound);
     }
 
     checkSound();
   });
-   
 }
 
-// ▶ 큰 소리로 앱 리셋 + 시각화
+// 큰 소리로 앱 리셋 + 시각화
 async function listenForLoudSound() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -91,7 +99,6 @@ async function listenForLoudSound() {
       }
       let rms = Math.sqrt(total / dataArray.length);
 
-      // 🔊 사운드 시각화
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#4caf50';
       ctx.fillRect(0, 0, rms * 15, canvas.height);
@@ -110,8 +117,7 @@ async function listenForLoudSound() {
   }
 }
 
-
-// ▶ 신호 처리
+// 신호 처리
 function handleSignal() {
   signalCount++;
   if (signalCount > totalSignals) return;
@@ -129,7 +135,7 @@ function handleSignal() {
   if (signalCount === totalSignals) finishGame();
 }
 
-// ▶ 이미지/텍스트 잠깐 보여주기
+// 이미지/텍스트 잠깐 보여주기
 function showTemp(html) {
   const main = document.getElementById('main-container');
   main.innerHTML = html;
@@ -141,21 +147,20 @@ function showTemp(html) {
   }, 2000);
 }
 
-// ▶ 결과 화면
+// 결과 화면
 function finishGame() {
   finished = true;
-  listening = false;  // 큰 소리 감지 대기 상태 유지
+  listening = false;
 
   const newResultHTML = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
   collectedAll.push(newResultHTML);
 
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
-
   document.getElementById('collected').innerHTML = collectedAll.join('');
 }
 
-// ▶ 앱 리셋
+// 앱 리셋
 function resetApp() {
   finished = false;
   listening = true;
@@ -172,6 +177,6 @@ function resetApp() {
     <h1 id="main-text">try to ruin it!</h1>
   `;
 
-  isDetecting = false;   // 소리 감지 재시작 허용
-  setupSoundDetection(); // 다시 소리 감지 시작
+  isDetecting = false;
+  setupSoundDetection();
 }
