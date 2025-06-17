@@ -61,7 +61,7 @@ function setupSoundDetection() {
 
         setTimeout(() => {
           canDetectSignal = true; // 1초 후 감지 재개
-        }, 1000);
+        }, 500);
     }
 
     checkSound();
@@ -156,7 +156,7 @@ function showTemp(html) {
       <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
       <h1 id="main-text">try to ruin it!</h1>
     `;
-  }, 2500);
+  }, 2000);
 }
 
 // ▶ 결과 화면
