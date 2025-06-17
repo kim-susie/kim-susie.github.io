@@ -19,14 +19,6 @@ let collected = [];
 let finished = false;
 let listening = true;
 
-characteristic.addEventListener('characteristicvaluechanged', (event) => {
-  const value = new TextDecoder().decode(event.target.value);
-  if (value.trim() === "1") {
-    console.log("📶 micro:bit 블루투스 신호 감지!");
-    handleSignal();  // 소리 감지처럼 반응
-  }
-});
-
 
 // ▶ 소리 감지 시작
 setupSoundDetection();
