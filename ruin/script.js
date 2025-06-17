@@ -35,6 +35,8 @@ listenForLoudSound();
 window.addEventListener('load', connectMicrobit);
 
 // ▶ 소리로 신호 감지
+let canDetectSignal = true;  // 신호 감지 가능 플래그
+
 function setupSoundDetection() {
   if (isDetecting) return; // 중복 방지
   isDetecting = true;
@@ -51,9 +53,16 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 50 && !finished) {
+
+      if (max - min > 50 && !finished && canDetectSignal) {
+        canDetectSignal = false;  // 신호 감지 잠시 중지
         handleSignal();
+
+        setTimeout(() => {
+          canDetectSignal = true; // 1초 후 감지 재개
+        }, 1000);
       }
+
       requestAnimationFrame(checkSound);
     }
 
