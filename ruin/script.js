@@ -139,30 +139,29 @@ function handleSignal() {
 }
 
 function showTemp(html) {
-  // 기존 요소 숨기기
-  const glassImage = document.getElementById('glass-image');
-  const mainText = document.getElementById('main-text');
-  if (glassImage) glassImage.style.visibility = 'hidden';
-  if (mainText) mainText.style.visibility = 'hidden';
+  // 기존 요소는 그대로 두고 임시 표시 레이어만 추가
+  const existingTemp = document.getElementById('temp-display');
+  if (existingTemp) existingTemp.remove();  // 이전 임시 요소 제거
 
-  // 임시 컨텐츠 생성
-  let temp = document.createElement('div');
+  const temp = document.createElement('div');
   temp.id = 'temp-display';
   temp.innerHTML = html;
+
+  // 스타일: 화면 중앙에 표시
   temp.style.position = 'absolute';
   temp.style.top = '50%';
   temp.style.left = '50%';
   temp.style.transform = 'translate(-50%, -50%)';
-  temp.style.zIndex = '1000';
-  document.body.appendChild(temp); // main 대신 body에 추가 (canvas 영향 방지)
+  temp.style.zIndex = '999';
+  temp.style.pointerEvents = 'none';  // 이벤트 방해 안 하도록
+
+  document.body.appendChild(temp);
 
   setTimeout(() => {
-    // 임시 컨텐츠 제거 및 원래 요소 복원
-    temp.remove();
-    if (glassImage) glassImage.style.visibility = 'visible';
-    if (mainText) mainText.style.visibility = 'visible';
+    temp.remove();  // 일정 시간 후 제거
   }, 2000);
 }
+
 
 
 
