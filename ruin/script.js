@@ -58,7 +58,7 @@ function setupSoundDetection() {
 
         setTimeout(() => {
           canDetectSignal = true;
-        }, 800);  // 재인식 간격을 0.8초로 늘림
+        }, 1000);  // 재인식 간격을 0.8초로 늘림
       }
 
       requestAnimationFrame(checkSound);
