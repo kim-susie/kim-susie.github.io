@@ -16,13 +16,40 @@ body, html {
 #main-container,
 #result-container {
   height: 100vh;              /* 화면 전체 높이 */
+  width: 100vw;               /* 화면 전체 너비 */
   display: flex;
   flex-direction: column;
-  justify-content: center;    /* 세로 중앙 */
-  align-items: center;        /* 가로 중앙 */
-  gap: 20px;                  /* 요소 간 간격 */
+  justify-content: center;    /* 세로 중앙 정렬 */
+  align-items: center;        /* 가로 중앙 정렬 */
+  gap: 20px;
   text-align: center;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+/* 수집된 아이템 영역 */
+#collected {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  min-height: 200px; /* 중앙 정렬 시 내용물 없을 때도 높이 확보 */
+}
+
+/* 아이템 스타일 */
+#collected img {
+  max-width: 80px;
+  height: auto;
+  margin: 5px;
+}
+
+#collected span {
+  font-weight: bold;
+  font-size: 1.5rem;
+  margin: 5px;
 }
 
 /* 글래스 이미지 */
