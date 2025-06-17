@@ -152,17 +152,28 @@ function showTemp(html) {
 }
 
 // ▶ 결과 화면
+
 function finishGame() {
   finished = true;
   listening = false;
 
+  // 새로운 시도 결과를 하나의 HTML 문자열로 묶어서 저장
   const newResultHTML = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
-  collectedAll.push(newResultHTML);
+  collectedAll.push(newResultHTML);  // 누적 저장
 
+  // 결과화면 전환
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
+
+  // 누적된 결과 표시
   document.getElementById('collected').innerHTML = collectedAll.join('');
+
+  // 🔁 일정 시간 후 다시 초기화
+  setTimeout(() => {
+    resetApp();  // 메인화면으로 돌아감
+  }, 3000);  // 3초 후 자동 리셋
 }
+
 
 // ▶ 앱 리셋
 function resetApp() {
