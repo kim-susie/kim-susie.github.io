@@ -24,6 +24,11 @@ body, html {
   text-align: center;
   padding: 20px;
 }
+#collected img, #collected span {
+  margin: 5px;
+  font-size: 1.5em;
+}
+
 
 /* 글래스 이미지 */
 #glass-image {
@@ -53,16 +58,7 @@ body, html {
   gap: 10px;
 }
 
-#collected img {
-  max-width: 80px;
-  height: auto;
-}
 
-#collected span {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin: 0 5px;
-}
 
 /* 사운드 시각화 캔버스 */
 
