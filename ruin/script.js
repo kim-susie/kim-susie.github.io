@@ -51,7 +51,7 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 30 && !finished) {
+      if (max - min > 50 && !finished) {
         handleSignal();
       }
       requestAnimationFrame(checkSound);
