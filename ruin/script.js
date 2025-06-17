@@ -140,15 +140,27 @@ function handleSignal() {
 
 // ▶ 이미지/글자 잠깐 보여주기
 function showTemp(html) {
+  // 기존 glass 이미지와 텍스트 숨기기
+  const glassImage = document.getElementById('glass-image');
+  const mainText = document.getElementById('main-text');
+  if (glassImage) glassImage.style.display = 'none';
+  if (mainText) mainText.style.display = 'none';
+
+  // 임시 결과 보여주기
   const main = document.getElementById('main-container');
-  main.innerHTML = html;
+  const tempDiv = document.createElement('div');
+  tempDiv.id = 'temp-content';
+  tempDiv.innerHTML = html;
+  main.appendChild(tempDiv);
+
+  // 2초 후 원래 요소 다시 보여주기
   setTimeout(() => {
-    main.innerHTML = `
-      <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
-      <h1 id="main-text">try to ruin it!</h1>
-    `;https://github.com/kim-susie/kim-susie.github.io/blob/main/ruin/script.js
+    if (glassImage) glassImage.style.display = 'block';
+    if (mainText) mainText.style.display = 'block';
+    tempDiv.remove();
   }, 2000);
 }
+
 
 // ▶ 결과 화면
 function finishGame() {
