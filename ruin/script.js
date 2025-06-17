@@ -16,6 +16,16 @@ let collected = [];
 let finished = false;
 let listening = true;
 
+// 페이지 로드 시 누적 결과 불러오기 + 마이크로비트 연결
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('accumulatedResults');
+  if (saved) {
+    document.getElementById('collected').innerHTML = saved;
+    document.getElementById('result-container').style.display = 'block';
+  }
+  connectMicrobit();
+});
+
 // 소리 감지 및 시각화 설정
 setupSoundDetection();
 listenForLoudSound();
@@ -27,9 +37,6 @@ listenForLoudSound();
     return false;
   }, {passive: false});
 });
-
-// 자동 마이크로비트 연결 시도
-window.addEventListener('load', connectMicrobit);
 
 // ▶ 소리로 신호 입력 감지
 function setupSoundDetection() {
@@ -45,7 +52,7 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 30 && !finished) {  // 기존 50 → 30으로 감도 높임
+      if (max - min > 30 && !finished) {  // 감도 조절
         handleSignal();
       }
       requestAnimationFrame(checkSound);
@@ -83,7 +90,7 @@ async function listenForLoudSound() {
       ctx.fillRect(0, 0, rms * 15, canvas.height);
 
       // 소리 인식 후 앱 리셋
-      if (rms > 15 && !listening) {  // 기존 8 → 15로 감도 낮춤 (더 큰 소리만 반응)
+      if (rms > 15 && !listening) {  // 감도 조절
         console.log('🔊 Loud sound detected – resetting app');
         resetApp();
       }
@@ -148,33 +155,43 @@ function showTemp(html) {
   }, 2000);
 }
 
-// ▶ 결과 화면
+// ▶ 결과 화면 - 누적 저장 및 표시
 function finishGame() {
   finished = true;
   listening = false;
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
-  document.getElementById('collected').innerHTML = collected.join('');
+
+  // 기존 저장된 결과 불러오기
+  let existing = localStorage.getItem('accumulatedResults') || '';
+
+  // 이번에 수집한 내용 추가
+  existing += collected.join('') + '<br><hr><br>';
+
+  // 로컬스토리지에 저장
+  localStorage.setItem('accumulatedResults', existing);
+
+  // 화면에 누적 결과 표시
+  document.getElementById('collected').innerHTML = existing;
 }
 
-// ▶ 앱 초기화
-
-
-
+// ▶ 앱 초기화 - 저장도 초기화 (필요 시)
 function resetApp() {
   finished = false;
   listening = true;
   signalCount = 0;
   collected = [];
 
+  // 저장 초기화 (원치 않으면 주석처리)
+  localStorage.removeItem('accumulatedResults');
+
   const main = document.getElementById('main-container');
   const result = document.getElementById('result-container');
 
-  main.style.display = 'flex';   // 중요! flex 유지
+  main.style.display = 'flex';   // flex 유지 필수
   result.style.display = 'none';
   main.innerHTML = `
-    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔">
+    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
     <h1 id="main-text">try to ruin it!</h1>
   `;
 }
-
