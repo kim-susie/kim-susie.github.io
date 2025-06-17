@@ -5,26 +5,53 @@
   box-sizing: border-box;
 }
 
-body, html {
+html, body {
   height: 100%;
+  width: 100%;
   font-family: 'Coral Pixels', serif;
   background: #fff;
   color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* 공통 컨테이너 스타일: 세로, 가로 중앙 정렬 */
+/* 메인 및 결과 컨테이너 */
 #main-container,
 #result-container {
-  height: 100vh;              /* 화면 전체 높이 */
-  width: 100vw;               /* 화면 전체 너비 */
+  width: 100%;
+  max-width: 1000px;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;    /* 세로 중앙 정렬 */
-  align-items: center;        /* 가로 중앙 정렬 */
+  justify-content: center;    /* 세로 중앙 */
+  align-items: center;        /* 가로 중앙 */
   gap: 20px;
   text-align: center;
   padding: 20px;
-  box-sizing: border-box;
+  position: absolute;         /* 겹쳐지도록 설정 */
+  top: 0;
+  left: 0;
+}
+
+/* 글래스 이미지 */
+#glass-image {
+  max-width: 280px;
+  width: 80vw;
+  height: auto;
+}
+
+/* 메인 텍스트 */
+#main-text {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+/* 결과 메시지 */
+#result-container h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 /* 수집된 아이템 영역 */
@@ -32,14 +59,12 @@ body, html {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
   align-items: center;
-  width: 100%;
+  gap: 10px;
+  min-height: 200px;
   max-width: 800px;
-  min-height: 200px; /* 중앙 정렬 시 내용물 없을 때도 높이 확보 */
 }
 
-/* 아이템 스타일 */
 #collected img {
   max-width: 80px;
   height: auto;
@@ -52,52 +77,8 @@ body, html {
   margin: 5px;
 }
 
-/* 글래스 이미지 */
-#glass-image {
-  max-width: 280px;
-  width: 80vw;                /* 화면폭의 80%까지 커짐 방지 */
-  height: auto;
-}
-
-/* 메인 텍스트 */
-#main-text {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-/* 결과 메시지 */
-#final-message h2 {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin-bottom: 15px;
-}
-
-/* 수집된 아이템 영역 */
-#collected {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-}
-
-#collected img {
-  max-width: 80px;
-  height: auto;
-}
-
-#collected span {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin: 0 5px;
-}
-
-/* 사운드 시각화 캔버스 */
-
+/* 사운드 시각화 */
 #sound-visual {
-  width: 50px;      /* 원하는 너비로 조절 */
-  height: 5px;      /* 사운드바 높이 작게 */
+  width: 50px;
+  height: 5px;
   background-color: #ddd;
-  border-radius: 5px;
-  margin: 10px auto;
-  display: block;
-}
