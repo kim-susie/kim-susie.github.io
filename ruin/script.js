@@ -16,21 +16,33 @@ let collected = [];
 let finished = false;
 let listening = true;
 
-// 페이지 로드 시 누적 결과 불러오기 + 마이크로비트 연결
+const mainContainer = document.getElementById('main-container');
+const resultContainer = document.getElementById('result-container');
+const collectedDiv = document.getElementById('collected');
+const displayArea = document.getElementById('display-area');
+const glassImage = document.getElementById('glass-image');
+const mainText = document.getElementById('main-text');
+const connectBtn = document.getElementById('connect-microbit');
+
+// 초기화 및 로컬스토리지에 저장된 결과 불러오기
 window.addEventListener('load', () => {
-  const saved = localStorage.getItem('accumulatedResults');
-  if (saved) {
-    document.getElementById('collected').innerHTML = saved;
-    document.getElementById('result-container').style.display = 'block';
+  const savedResults = localStorage.getItem('accumulatedResults');
+  if (savedResults) {
+    collectedDiv.innerHTML = savedResults;
+    showResultContainer();
   }
+});
+
+// 마이크로비트 연결 버튼 이벤트
+connectBtn.addEventListener('click', () => {
   connectMicrobit();
 });
 
-// 소리 감지 및 시각화 설정
+// 소리 감지 및 시각화 시작
 setupSoundDetection();
 listenForLoudSound();
 
-// 사용자 인터랙션 방지
+// 사용자 인터랙션 차단
 ['click','mousedown','mouseup','keydown','keyup','scroll','touchstart','touchend'].forEach(ev => {
   window.addEventListener(ev, e => {
     e.preventDefault();
@@ -38,7 +50,6 @@ listenForLoudSound();
   }, {passive: false});
 });
 
-// ▶ 소리로 신호 입력 감지
 function setupSoundDetection() {
   navigator.mediaDevices.getUserMedia({ audio: true }).then(stream => {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -52,7 +63,7 @@ function setupSoundDetection() {
       analyser.getByteTimeDomainData(data);
       let max = Math.max(...data);
       let min = Math.min(...data);
-      if (max - min > 30 && !finished) {  // 감도 조절
+      if (max - min > 30 && !finished) {
         handleSignal();
       }
       requestAnimationFrame(checkSound);
@@ -62,7 +73,6 @@ function setupSoundDetection() {
   });
 }
 
-// ▶ 큰 소리로 앱 리셋 (UI 시각화 포함)
 async function listenForLoudSound() {
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -84,17 +94,14 @@ async function listenForLoudSound() {
       }
       let rms = Math.sqrt(total / dataArray.length);
 
-      // 🔊 사운드 시각화
+      // 사운드 시각화
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = '#4caf50';
       ctx.fillRect(0, 0, rms * 15, canvas.height);
 
-      // 소리 인식 후 앱 리셋
-      if (rms > 15 && !listening) {  // 감도 조절
-        console.log('🔊 Loud sound detected – resetting app');
+      if (rms > 15 && !listening) {
         resetApp();
       }
-
       requestAnimationFrame(checkVolume);
     }
 
@@ -104,7 +111,6 @@ async function listenForLoudSound() {
   }
 }
 
-// ▶ 마이크로비트 연결
 async function connectMicrobit() {
   try {
     const device = await navigator.bluetooth.requestDevice({
@@ -123,18 +129,15 @@ async function connectMicrobit() {
   }
 }
 
-// ▶ 신호 처리
 function handleSignal() {
   signalCount++;
   if (signalCount > totalSignals) return;
 
   if (signalCount % 2 === 1) {
-    // A 이미지
     let idx = Math.floor(Math.random() * groupAImages.length);
     collected.push(`<img src="${groupAImages[idx]}" width="80">`);
     showTemp(`<img src="${groupAImages[idx]}" width="120">`);
   } else {
-    // B 텍스트
     let idx = Math.floor(Math.random() * groupBTexts.length);
     collected.push(`<span>${groupBTexts[idx]}</span>`);
     showTemp(`<span style="font-size:2em">${groupBTexts[idx]}</span>`);
@@ -143,55 +146,41 @@ function handleSignal() {
   if (signalCount === totalSignals) finishGame();
 }
 
-// ▶ 이미지/글자 잠깐 보여주기
 function showTemp(html) {
-  const main = document.getElementById('main-container');
-  main.innerHTML = html;
+  displayArea.innerHTML = html;
   setTimeout(() => {
-    main.innerHTML = `
-      <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
-      <h1 id="main-text">try to ruin it!</h1>
-    `;
+    displayArea.innerHTML = '';
   }, 2000);
 }
 
-// ▶ 결과 화면 - 누적 저장 및 표시
 function finishGame() {
   finished = true;
   listening = false;
-  document.getElementById('main-container').style.display = 'none';
-  document.getElementById('result-container').style.display = 'block';
+  mainContainer.style.display = 'none';
+  showResultContainer();
 
-  // 기존 저장된 결과 불러오기
+  // 기존 결과 누적 + 이번 결과 추가
   let existing = localStorage.getItem('accumulatedResults') || '';
-
-  // 이번에 수집한 내용 추가
   existing += collected.join('') + '<br><hr><br>';
-
-  // 로컬스토리지에 저장
   localStorage.setItem('accumulatedResults', existing);
 
-  // 화면에 누적 결과 표시
-  document.getElementById('collected').innerHTML = existing;
+  collectedDiv.innerHTML = existing;
 }
 
-// ▶ 앱 초기화 - 저장도 초기화 (필요 시)
 function resetApp() {
   finished = false;
   listening = true;
   signalCount = 0;
   collected = [];
 
-  // 저장 초기화 (원치 않으면 주석처리)
-  localStorage.removeItem('accumulatedResults');
+  // 만약 초기화시 저장된 결과도 비우고 싶으면 아래 주석 해제
+  // localStorage.removeItem('accumulatedResults');
 
-  const main = document.getElementById('main-container');
-  const result = document.getElementById('result-container');
+  mainContainer.style.display = 'flex';
+  resultContainer.style.display = 'none';
+  displayArea.innerHTML = '';
+}
 
-  main.style.display = 'flex';   // flex 유지 필수
-  result.style.display = 'none';
-  main.innerHTML = `
-    <img id="glass-image" src="assets/glass.png" alt="깨지 않은 유리잔" width="150">
-    <h1 id="main-text">try to ruin it!</h1>
-  `;
+function showResultContainer() {
+  resultContainer.style.display = 'flex';
 }
