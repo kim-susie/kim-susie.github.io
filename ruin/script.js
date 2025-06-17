@@ -155,18 +155,16 @@ function finishGame() {
   finished = true;
   listening = false;
 
-  // 이번 시도 결과 저장
-  collectedAll.push([...collected]); // 배열 복사해서 저장
+  // 새로운 시도 결과를 하나의 HTML 문자열로 묶어서 저장
+  const newResultHTML = `<div style="white-space: nowrap; margin-bottom: 10px;">${collected.join('')}</div>`;
+  collectedAll.push(newResultHTML);  // 문자열로 저장
 
   // 화면 전환
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('result-container').style.display = 'block';
 
-  // 모든 시도 결과 렌더링
-  const collectedDiv = document.getElementById('collected');
-  collectedDiv.innerHTML = collectedAll.map(group => 
-    `<div style="white-space: nowrap; margin-bottom: 10px;">${group.join('')}</div>`
-  ).join('');
+  // 누적된 모든 결과 HTML을 출력
+  document.getElementById('collected').innerHTML = collectedAll.join('');
 }
 
 
