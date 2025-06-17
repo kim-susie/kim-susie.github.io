@@ -20,8 +20,6 @@ let finished = false;
 let listening = true;
 
 
-
-
 // ▶ 소리 감지 시작
 setupSoundDetection();
 listenForLoudSound();
