@@ -14,7 +14,7 @@ body, html {
 
 /* 공통 컨테이너 스타일: 세로, 가로 중앙 정렬 */
 #main-container,
-{
+#result-container {
   height: 100vh;              /* 화면 전체 높이 */
   display: flex;
   flex-direction: column;
@@ -24,20 +24,6 @@ body, html {
   text-align: center;
   padding: 20px;
 }
-#collected img, #collected span {
-  margin: 5px;
-  font-size: 1.5em;
-}
-#result-container {
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  overflow-y: auto;
-  max-height: 80vh;
-}
-
-
 
 /* 글래스 이미지 */
 #glass-image {
@@ -67,7 +53,16 @@ body, html {
   gap: 10px;
 }
 
+#collected img {
+  max-width: 80px;
+  height: auto;
+}
 
+#collected span {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 5px;
+}
 
 /* 사운드 시각화 캔버스 */
 
