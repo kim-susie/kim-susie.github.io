@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Susie Kim | Work</title>
+  <!-- 스타일시트 연결 -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bonbon&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Sans+KR&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 네비게이션 바 (index와 동일) -->
+  <div class="navbar">
+    <div class="navbar-item left" onclick="location.href='index.html'">Susie Kim</div>
+    <div class="navbar-item center" onclick="location.href='work.html'">Work</div>
+    <div class="navbar-item right" onclick="location.href='about.html'">About</div>
+  </div>
+  <!-- 메인 컨테이너: 사이드바와 콘텐츠가 나란히 배치 -->
+  <div class="work-container">
+    <!-- Sidebar -->
+    <nav class="sidebar">
+      <button class="category" type="button">B.I.</button>
+      <div class="submenu">
+        <a href="#seasonaly" id="seasonaly">Seasonaly, 2025</a>
+        <a href="#">Hi-Noon, 2023</a>
+        <a href="#">Eroom, 2022</a>
+      </div>
+      <button class="category" type="button">Exhibition</button>
+      <div class="submenu">
+        <a href="#">Exhibition 1</a>
+        <a href="#">Exhibition 2</a>
+      </div>
+      <button class="category" type="button">Art Direction</button>
+      <div class="submenu">
+        <a href="#">Bon Appetit!</a>
+      
+      </div>
+      <button class="category" type="button">Graphic</button>
+      <div class="submenu">
+        <a href="#">Graphic 1</a>
+        <a href="#">Graphic 2</a>
+      </div>
+      <button class="category" type="button">Books</button>
+      <div class="submenu">
+        <a href="#">Web Project 1</a>
+        <a href="#">Interaction 2</a>
+      </div>
+        <button class="category" type="button">Interaction</button>
+      <div class="submenu">
+        <a href="#">Web Project 1</a>
+        <a href="#">Interaction 2</a>
+      </div>
+    </nav>
+    <!-- Main Content: 이미지 영역 + 설명 영역 나란히 -->
+    <div class="main-content">
+      <div class="image-scroll-area">
+        <!-- 예시 이미지 (실제 이미지로 교체 가능) -->
+        <img src="image/sample1.jpg" alt="작품 이미지1" style="width:90%; margin:24px 0; border-radius:4px;">
+        <img src="image/sample2.jpg" alt="작품 이미지2" style="width:90%; margin:24px 0; border-radius:4px;">
+        <img src="image/sample3.jpg" alt="작품 이미지3" style="width:90%; margin:24px 0; border-radius:4px;">
+      </div>
+      <div class="desc-area">
+        <h2>프로젝트 제목</h2>
+        <div class="info">2025, Branding & Identity</div>
+        <div class="summary">
+          이 영역에는 프로젝트의 간단한 설명이나 주요 포인트, 
+          참여 역할, 사용 툴, 결과 등을 자유롭게 적을 수 있습니다.<br>
+          <br>
+          예시) <br>
+          - 클라이언트: Seasonaly<br>
+          - 역할: 아트디렉터, 디자이너<br>
+          - 주요 결과: 브랜드 키트, 로고, 가이드라인 등
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // 아코디언 메뉴 기능
+    document.querySelectorAll('.category').forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.submenu').forEach((menu, i) => {
+          if (i === idx) {
+            menu.classList.toggle('show');
+            btn.classList.toggle('active');
+          } else {
+            menu.classList.remove('show');
+            document.querySelectorAll('.category')[i].classList.remove('active');
+          }
+        });
+      });
+    });
+  </script>
+
+    <footer class="copyright-fixed">
+  Copyright 2025. Susie Kim All rights reserved.
+</footer>
+
+
+</body>
+</html>
